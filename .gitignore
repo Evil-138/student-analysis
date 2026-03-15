@@ -8,4 +8,5 @@ dist/
 build/
 venv/
 .env
+.pytest_cache/
 data/test_upload.csv

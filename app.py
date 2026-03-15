@@ -16,7 +16,7 @@ ALLOWED_EXTENSIONS = {'csv'}
 DEFAULT_CSV = os.path.join(DATA_DIR, 'sample_students.csv')
 
 app = Flask(__name__)
-app.secret_key = 'outrix-student-analysis-2024'
+app.secret_key = os.environ.get('SECRET_KEY', 'outrix-student-analysis-dev-key')
 app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB max
 

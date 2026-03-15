@@ -31,7 +31,7 @@ const DEFAULT_COLORS = [
 
 /**
  * Background color resolution helper
- * If the labels match grade keys (A/B/C/D/F) use grade colours,
+ * If the labels match grade keys (A/B/C/D/F) use grade colors,
  * otherwise fall back to the default palette.
  */
 function resolveColors(labels, override) {
