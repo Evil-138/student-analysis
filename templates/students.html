@@ -1,0 +1,151 @@
+{% extends "base.html" %}
+{% block title %}Students{% endblock %}
+
+{% block content %}
+<div class="d-flex align-items-center justify-content-between mb-4">
+  <div>
+    <h2 class="mb-0 fw-bold">
+      <i class="bi bi-people me-2 text-primary"></i>Students
+    </h2>
+    <p class="text-muted mb-0 small">Browse and filter all enrolled students</p>
+  </div>
+  <span class="badge bg-primary fs-6">{{ total }} student{{ 's' if total != 1 }}</span>
+</div>
+
+<!-- Filter Form -->
+<div class="card shadow-sm mb-4">
+  <div class="card-body">
+    <form method="GET" action="{{ url_for('students') }}" class="row g-2 align-items-end">
+      <div class="col-12 col-md-4">
+        <label class="form-label small fw-semibold mb-1">Search by Name</label>
+        <div class="input-group">
+          <span class="input-group-text"><i class="bi bi-search"></i></span>
+          <input type="text" class="form-control" name="search" value="{{ search }}" placeholder="e.g. Alice">
+        </div>
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label small fw-semibold mb-1">Grade</label>
+        <select class="form-select" name="grade">
+          <option value="">All Grades</option>
+          {% for g in grades %}
+          <option value="{{ g }}" {% if grade_filter == g %}selected{% endif %}>{{ g }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label small fw-semibold mb-1">Gender</label>
+        <select class="form-select" name="gender">
+          <option value="">All Genders</option>
+          {% for gnd in genders %}
+          <option value="{{ gnd }}" {% if gender_filter == gnd %}selected{% endif %}>{{ gnd }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div class="col-6 col-md-2">
+        <label class="form-label small fw-semibold mb-1">Sort By</label>
+        <select class="form-select" name="sort">
+          <option value="student_id" {% if sort_by == 'student_id' %}selected{% endif %}>ID</option>
+          <option value="name" {% if sort_by == 'name' %}selected{% endif %}>Name</option>
+          <option value="overall_score" {% if sort_by == 'overall_score' %}selected{% endif %}>Overall Score</option>
+          <option value="attendance_percentage" {% if sort_by == 'attendance_percentage' %}selected{% endif %}>Attendance</option>
+          <option value="grade" {% if sort_by == 'grade' %}selected{% endif %}>Grade</option>
+        </select>
+      </div>
+      <div class="col-6 col-md-1">
+        <label class="form-label small fw-semibold mb-1">Order</label>
+        <select class="form-select" name="order">
+          <option value="asc" {% if sort_order == 'asc' %}selected{% endif %}>↑ Asc</option>
+          <option value="desc" {% if sort_order == 'desc' %}selected{% endif %}>↓ Desc</option>
+        </select>
+      </div>
+      <div class="col-12 col-md-1 d-flex gap-2">
+        <button type="submit" class="btn btn-primary w-100"><i class="bi bi-funnel-fill"></i></button>
+        <a href="{{ url_for('students') }}" class="btn btn-outline-secondary w-100"><i class="bi bi-x-lg"></i></a>
+      </div>
+    </form>
+  </div>
+</div>
+
+<!-- Students Table -->
+<div class="card shadow-sm">
+  <div class="table-responsive">
+    <table class="table table-hover align-middle mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Age</th>
+          <th>Gender</th>
+          <th class="text-center">Math</th>
+          <th class="text-center">English</th>
+          <th class="text-center">Science</th>
+          <th class="text-center">History</th>
+          <th class="text-center">Overall</th>
+          <th class="text-center">Attendance</th>
+          <th class="text-center">Grade</th>
+          <th class="text-center">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td><span class="text-muted small">#{{ s.student_id }}</span></td>
+          <td class="fw-semibold">{{ s.name }}</td>
+          <td>{{ s.age }}</td>
+          <td>
+            <span class="badge {% if s.gender == 'Male' %}bg-info text-dark{% else %}bg-pink text-dark{% endif %} rounded-pill">
+              <i class="bi bi-{% if s.gender == 'Male' %}gender-male{% else %}gender-female{% endif %} me-1"></i>{{ s.gender }}
+            </span>
+          </td>
+          <td class="text-center">{{ s.math_score }}</td>
+          <td class="text-center">{{ s.english_score }}</td>
+          <td class="text-center">{{ s.science_score }}</td>
+          <td class="text-center">{{ s.history_score }}</td>
+          <td class="text-center fw-bold
+            {% if s.overall_score >= 90 %}text-success
+            {% elif s.overall_score >= 75 %}text-primary
+            {% elif s.overall_score >= 60 %}text-warning
+            {% else %}text-danger{% endif %}">
+            {{ s.overall_score }}
+          </td>
+          <td class="text-center">
+            <div class="d-flex align-items-center gap-1 justify-content-center">
+              <div class="progress flex-grow-1" style="height:6px; min-width:40px;">
+                <div class="progress-bar
+                  {% if s.attendance_percentage >= 90 %}bg-success
+                  {% elif s.attendance_percentage >= 75 %}bg-warning
+                  {% else %}bg-danger{% endif %}"
+                  style="width:{{ s.attendance_percentage }}%">
+                </div>
+              </div>
+              <small>{{ s.attendance_percentage }}%</small>
+            </div>
+          </td>
+          <td class="text-center">
+            <span class="badge grade-badge-{{ s.grade }}">{{ s.grade }}</span>
+          </td>
+          <td class="text-center">
+            <a href="{{ url_for('student_detail', student_id=s.student_id) }}"
+               class="btn btn-sm btn-outline-primary">
+              <i class="bi bi-eye me-1"></i>View
+            </a>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="12" class="text-center py-5 text-muted">
+            <i class="bi bi-search fs-1 d-block mb-2 opacity-25"></i>
+            No students match your filters.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+  {% if students %}
+  <div class="card-footer bg-light text-muted small py-2 px-3">
+    Showing <strong>{{ total }}</strong> student{{ 's' if total != 1 }}
+  </div>
+  {% endif %}
+</div>
+{% endblock %}

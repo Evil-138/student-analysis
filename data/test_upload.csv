@@ -1,0 +1,2 @@
+student_id,name,age,gender,math_score,english_score,science_score,history_score,attendance_percentage,grade
+1,Test User,18,Female,80,75,85,70,90.0,B

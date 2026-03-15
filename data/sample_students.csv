@@ -1,0 +1,26 @@
+student_id,name,age,gender,math_score,english_score,science_score,history_score,attendance_percentage,grade
+1,Alice Johnson,18,Female,92,88,95,87,96.5,A
+2,Bob Smith,19,Male,78,72,80,75,88.0,B
+3,Carol White,18,Female,85,90,83,91,94.0,A
+4,David Brown,20,Male,65,70,68,72,82.0,C
+5,Emma Davis,18,Female,55,60,58,62,75.5,D
+6,Frank Miller,19,Male,91,85,89,88,97.0,A
+7,Grace Wilson,18,Female,73,78,76,80,85.0,B
+8,Henry Moore,20,Male,48,52,45,50,68.0,F
+9,Isabella Taylor,19,Female,88,92,90,94,95.5,A
+10,James Anderson,18,Male,70,66,74,69,80.0,C
+11,Karen Thomas,19,Female,82,79,85,77,91.0,B
+12,Liam Jackson,20,Male,60,63,57,65,76.0,C
+13,Mia Harris,18,Female,94,96,92,95,98.0,A
+14,Noah Martin,19,Male,58,55,61,53,72.0,D
+15,Olivia Garcia,18,Female,77,81,79,83,87.5,B
+16,Patrick Martinez,20,Male,44,48,42,46,65.0,F
+17,Quinn Robinson,19,Female,86,83,88,80,93.0,A
+18,Ryan Clark,18,Male,69,74,67,71,83.0,C
+19,Sophia Lewis,19,Female,90,87,93,86,96.0,A
+20,Tyler Lee,20,Male,63,58,66,60,78.0,C
+21,Uma Walker,18,Female,50,54,49,56,70.0,D
+22,Victor Hall,19,Male,81,76,84,78,89.0,B
+23,Wendy Allen,18,Female,74,79,72,77,86.0,B
+24,Xander Young,20,Male,53,47,55,50,71.5,D
+25,Yara King,19,Female,97,93,96,91,99.0,A

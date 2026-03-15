@@ -1,0 +1,152 @@
+{% extends "base.html" %}
+{% block title %}Upload CSV{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <h2 class="fw-bold mb-0">
+    <i class="bi bi-upload me-2 text-primary"></i>Upload Student Data
+  </h2>
+  <p class="text-muted mb-0 small">Upload a CSV file to replace the current student dataset</p>
+</div>
+
+<div class="row g-4">
+  <!-- Upload Form -->
+  <div class="col-12 col-md-5">
+    <div class="card shadow-sm">
+      <div class="card-header bg-primary text-white fw-semibold">
+        <i class="bi bi-file-earmark-arrow-up me-2"></i>Select CSV File
+      </div>
+      <div class="card-body">
+        <form method="POST" action="{{ url_for('upload') }}" enctype="multipart/form-data">
+          <div class="mb-3">
+            <label for="file" class="form-label fw-semibold">CSV File</label>
+            <input type="file" class="form-control" id="file" name="file" accept=".csv" required>
+            <div class="form-text text-muted">
+              <i class="bi bi-info-circle me-1"></i>
+              Accepted format: <code>.csv</code> &mdash; Max size: 16 MB
+            </div>
+          </div>
+          <div class="alert alert-warning py-2 small mb-3">
+            <i class="bi bi-exclamation-triangle me-1"></i>
+            <strong>Warning:</strong> Uploading a new file will replace the currently loaded dataset.
+          </div>
+          <button type="submit" class="btn btn-primary w-100">
+            <i class="bi bi-cloud-upload me-2"></i>Upload & Load Data
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mt-3">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-lightbulb me-2 text-warning"></i>Tips
+      </div>
+      <div class="card-body small text-muted">
+        <ul class="mb-0 ps-3">
+          <li>Ensure the first row contains column headers exactly as shown.</li>
+          <li>Scores should be numeric values between 0 and 100.</li>
+          <li>Grade must be one of: <code>A</code>, <code>B</code>, <code>C</code>, <code>D</code>, <code>F</code>.</li>
+          <li>Attendance is a percentage (e.g. <code>95.5</code>).</li>
+          <li>Gender values should be consistent (e.g. <code>Male</code> / <code>Female</code>).</li>
+          <li>Student IDs must be unique integers.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Format Documentation -->
+  <div class="col-12 col-md-7">
+    <div class="card shadow-sm">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-table me-2 text-success"></i>Required CSV Format
+      </div>
+      <div class="table-responsive">
+        <table class="table table-bordered table-hover align-middle mb-0 small">
+          <thead class="table-dark">
+            <tr>
+              <th>Column Name</th>
+              <th>Type</th>
+              <th>Description</th>
+              <th>Example</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><code>student_id</code></td>
+              <td><span class="badge bg-info text-dark">Integer</span></td>
+              <td>Unique student identifier</td>
+              <td><code>1</code></td>
+            </tr>
+            <tr>
+              <td><code>name</code></td>
+              <td><span class="badge bg-secondary">String</span></td>
+              <td>Full name of the student</td>
+              <td><code>Alice Johnson</code></td>
+            </tr>
+            <tr>
+              <td><code>age</code></td>
+              <td><span class="badge bg-info text-dark">Integer</span></td>
+              <td>Student age in years</td>
+              <td><code>18</code></td>
+            </tr>
+            <tr>
+              <td><code>gender</code></td>
+              <td><span class="badge bg-secondary">String</span></td>
+              <td>Gender (consistent values)</td>
+              <td><code>Female</code></td>
+            </tr>
+            <tr>
+              <td><code>math_score</code></td>
+              <td><span class="badge bg-warning text-dark">Float 0–100</span></td>
+              <td>Score in Mathematics</td>
+              <td><code>92</code></td>
+            </tr>
+            <tr>
+              <td><code>english_score</code></td>
+              <td><span class="badge bg-warning text-dark">Float 0–100</span></td>
+              <td>Score in English</td>
+              <td><code>88</code></td>
+            </tr>
+            <tr>
+              <td><code>science_score</code></td>
+              <td><span class="badge bg-warning text-dark">Float 0–100</span></td>
+              <td>Score in Science</td>
+              <td><code>95</code></td>
+            </tr>
+            <tr>
+              <td><code>history_score</code></td>
+              <td><span class="badge bg-warning text-dark">Float 0–100</span></td>
+              <td>Score in History</td>
+              <td><code>87</code></td>
+            </tr>
+            <tr>
+              <td><code>attendance_percentage</code></td>
+              <td><span class="badge bg-warning text-dark">Float 0–100</span></td>
+              <td>Attendance as a percentage</td>
+              <td><code>96.5</code></td>
+            </tr>
+            <tr>
+              <td><code>grade</code></td>
+              <td><span class="badge bg-secondary">String</span></td>
+              <td>Letter grade: A, B, C, D, or F</td>
+              <td><code>A</code></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <div class="card shadow-sm mt-3">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-code-square me-2 text-primary"></i>Example CSV Snippet
+      </div>
+      <div class="card-body p-0">
+        <pre class="bg-dark text-success p-3 mb-0 rounded-bottom small" style="overflow-x:auto;">student_id,name,age,gender,math_score,english_score,science_score,history_score,attendance_percentage,grade
+1,Alice Johnson,18,Female,92,88,95,87,96.5,A
+2,Bob Smith,19,Male,78,72,80,75,88.0,B
+3,Carol White,18,Female,85,90,83,91,94.0,A</pre>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

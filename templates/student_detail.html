@@ -1,0 +1,214 @@
+{% extends "base.html" %}
+{% block title %}{{ student.name }}{% endblock %}
+
+{% block content %}
+<div class="mb-4">
+  <a href="{{ url_for('students') }}" class="btn btn-outline-secondary btn-sm mb-3">
+    <i class="bi bi-arrow-left me-1"></i>Back to Students
+  </a>
+  <h2 class="fw-bold mb-0">
+    <i class="bi bi-person-circle me-2 text-primary"></i>{{ student.name }}
+  </h2>
+  <p class="text-muted mb-0 small">Student Detail &mdash; ID #{{ student.student_id }}</p>
+</div>
+
+<!-- Info + Rank Row -->
+<div class="row g-3 mb-4">
+  <div class="col-12 col-md-4">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-primary text-white fw-semibold">
+        <i class="bi bi-person-badge me-2"></i>Student Profile
+      </div>
+      <div class="card-body">
+        <div class="text-center mb-3">
+          <div class="rounded-circle bg-primary bg-opacity-10 d-inline-flex align-items-center justify-content-center mb-2"
+               style="width:80px;height:80px;">
+            <i class="bi bi-person-fill text-primary" style="font-size:2.5rem;"></i>
+          </div>
+          <h5 class="fw-bold mb-0">{{ student.name }}</h5>
+          <span class="badge grade-badge-{{ student.grade }} fs-6 mt-1">Grade {{ student.grade }}</span>
+        </div>
+        <hr>
+        <ul class="list-unstyled mb-0 small">
+          <li class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted"><i class="bi bi-hash me-1"></i>Student ID</span>
+            <strong>{{ student.student_id }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted"><i class="bi bi-calendar3 me-1"></i>Age</span>
+            <strong>{{ student.age }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted"><i class="bi bi-gender-ambiguous me-1"></i>Gender</span>
+            <strong>{{ student.gender }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted"><i class="bi bi-calendar-check me-1"></i>Attendance</span>
+            <strong class="{% if student.attendance_percentage >= 90 %}text-success{% elif student.attendance_percentage >= 75 %}text-warning{% else %}text-danger{% endif %}">
+              {{ student.attendance_percentage }}%
+            </strong>
+          </li>
+          <li class="d-flex justify-content-between py-1 border-bottom">
+            <span class="text-muted"><i class="bi bi-trophy me-1"></i>Class Rank</span>
+            <strong>#{{ student.rank }} / {{ student.total_students }}</strong>
+          </li>
+          <li class="d-flex justify-content-between py-1">
+            <span class="text-muted"><i class="bi bi-star me-1"></i>Overall Score</span>
+            <strong class="{% if student.overall_score >= 90 %}text-success{% elif student.overall_score >= 75 %}text-primary{% elif student.overall_score >= 60 %}text-warning{% else %}text-danger{% endif %}">
+              {{ student.overall_score }}
+            </strong>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <!-- Subject Score Cards -->
+  <div class="col-12 col-md-8">
+    <div class="row g-3 mb-3">
+      {% set subject_list = [
+        ('Math', student.math_score, 'primary', 'calculator'),
+        ('English', student.english_score, 'success', 'book'),
+        ('Science', student.science_score, 'warning', 'flask'),
+        ('History', student.history_score, 'danger', 'hourglass-split')
+      ] %}
+      {% for subj, score, color, icon in subject_list %}
+      <div class="col-6">
+        <div class="card shadow-sm h-100 border-0 border-start border-4 border-{{ color }}">
+          <div class="card-body">
+            <div class="d-flex justify-content-between align-items-center mb-2">
+              <span class="text-muted small fw-semibold">{{ subj }}</span>
+              <i class="bi bi-{{ icon }} text-{{ color }}"></i>
+            </div>
+            <h3 class="fw-bold text-{{ color }} mb-1">{{ score }}</h3>
+            <div class="progress" style="height:6px;">
+              <div class="progress-bar bg-{{ color }}" style="width:{{ score }}%"></div>
+            </div>
+            <small class="text-muted">
+              Class avg: {{ class_avg[subj] }}
+              {% if score > class_avg[subj] %}
+                <i class="bi bi-arrow-up-short text-success"></i>
+              {% elif score < class_avg[subj] %}
+                <i class="bi bi-arrow-down-short text-danger"></i>
+              {% else %}
+                <i class="bi bi-dash text-muted"></i>
+              {% endif %}
+            </small>
+          </div>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+
+    <!-- Overall performance badge -->
+    <div class="card shadow-sm border-0">
+      <div class="card-body text-center py-3">
+        <div class="row g-3">
+          <div class="col-4">
+            <div class="text-muted small">Overall Score</div>
+            <div class="fw-bold fs-4
+              {% if student.overall_score >= 90 %}text-success
+              {% elif student.overall_score >= 75 %}text-primary
+              {% elif student.overall_score >= 60 %}text-warning
+              {% else %}text-danger{% endif %}">
+              {{ student.overall_score }}
+            </div>
+          </div>
+          <div class="col-4">
+            <div class="text-muted small">Rank</div>
+            <div class="fw-bold fs-4">#{{ student.rank }}</div>
+          </div>
+          <div class="col-4">
+            <div class="text-muted small">Performance</div>
+            <span class="badge fs-6
+              {% if student.overall_score >= 90 %}bg-success
+              {% elif student.overall_score >= 75 %}bg-primary
+              {% elif student.overall_score >= 60 %}bg-warning text-dark
+              {% elif student.overall_score >= 50 %}bg-orange text-dark
+              {% else %}bg-danger{% endif %}">
+              {% if student.overall_score >= 90 %}Excellent
+              {% elif student.overall_score >= 75 %}Good
+              {% elif student.overall_score >= 60 %}Average
+              {% elif student.overall_score >= 50 %}Below Avg
+              {% else %}Needs Help{% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Charts Row -->
+<div class="row g-3">
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-radar me-2 text-primary"></i>Score vs Class Average
+      </div>
+      <div class="card-body d-flex align-items-center justify-content-center">
+        <div class="chart-container">
+          <canvas id="radarChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="col-12 col-md-6">
+    <div class="card shadow-sm h-100">
+      <div class="card-header bg-white fw-semibold">
+        <i class="bi bi-bar-chart-fill me-2 text-success"></i>Subject Scores Breakdown
+      </div>
+      <div class="card-body d-flex align-items-center justify-content-center">
+        <div class="chart-container">
+          <canvas id="subjectBarChart"></canvas>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  const subjectScores = {{ subject_scores_json | safe }};
+  const classAvg = {{ class_avg_json | safe }};
+  const labels = Object.keys(subjectScores);
+  const studentValues = Object.values(subjectScores);
+  const avgValues = Object.values(classAvg);
+
+  createRadarChart(
+    'radarChart',
+    labels,
+    [
+      {
+        label: '{{ student.name }}',
+        data: studentValues,
+        backgroundColor: 'rgba(54, 162, 235, 0.25)',
+        borderColor: 'rgba(54, 162, 235, 1)',
+        borderWidth: 2,
+        pointBackgroundColor: 'rgba(54, 162, 235, 1)',
+      },
+      {
+        label: 'Class Average',
+        data: avgValues,
+        backgroundColor: 'rgba(255, 99, 132, 0.15)',
+        borderColor: 'rgba(255, 99, 132, 1)',
+        borderWidth: 2,
+        borderDash: [5, 5],
+        pointBackgroundColor: 'rgba(255, 99, 132, 1)',
+      },
+    ],
+    'Student vs Class Average'
+  );
+
+  createBarChart(
+    'subjectBarChart',
+    labels,
+    studentValues,
+    '{{ student.name }}\'s Scores',
+    ['rgba(54,162,235,0.8)', 'rgba(75,192,192,0.8)', 'rgba(255,205,86,0.8)', 'rgba(255,99,132,0.8)']
+  );
+})();
+</script>
+{% endblock %}

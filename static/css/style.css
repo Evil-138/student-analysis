@@ -1,0 +1,216 @@
+/* =============================================
+   Outrix Student Analysis Platform — style.css
+   ============================================= */
+
+/* ── Root variables ── */
+:root {
+  --outrix-primary: #0d6efd;
+  --outrix-success: #198754;
+  --outrix-warning: #ffc107;
+  --outrix-danger:  #dc3545;
+  --outrix-info:    #0dcaf0;
+  --card-radius: 0.75rem;
+  --transition-speed: 0.2s;
+}
+
+/* ── Base ── */
+body {
+  background-color: #f8f9fa;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* ── Navbar ── */
+.navbar {
+  min-height: 60px;
+}
+.navbar-brand {
+  letter-spacing: 0.03em;
+}
+.navbar .nav-link {
+  transition: background-color var(--transition-speed) ease;
+  font-size: 0.9rem;
+}
+.navbar .nav-link:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  border-radius: 0.375rem;
+}
+
+/* ── Cards ── */
+.card {
+  border: none;
+  border-radius: var(--card-radius);
+  transition: box-shadow var(--transition-speed) ease, transform var(--transition-speed) ease;
+}
+.card:hover {
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.1) !important;
+}
+
+/* ── Stat cards with colored top border ── */
+.stat-card {
+  border-top: 4px solid transparent;
+  border-radius: var(--card-radius);
+}
+.stat-card-primary  { border-top-color: var(--outrix-primary) !important; }
+.stat-card-success  { border-top-color: var(--outrix-success) !important; }
+.stat-card-warning  { border-top-color: var(--outrix-warning) !important; }
+.stat-card-danger   { border-top-color: var(--outrix-danger)  !important; }
+.stat-card-info     { border-top-color: var(--outrix-info)    !important; }
+
+.stat-icon {
+  width: 48px;
+  height: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+/* ── Grade badges ── */
+.grade-badge-A {
+  background-color: #198754;
+  color: #fff;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.grade-badge-B {
+  background-color: #0d6efd;
+  color: #fff;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.grade-badge-C {
+  background-color: #ffc107;
+  color: #212529;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.grade-badge-D {
+  background-color: #fd7e14;
+  color: #fff;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+.grade-badge-F {
+  background-color: #dc3545;
+  color: #fff;
+  padding: 0.3em 0.65em;
+  border-radius: 0.375rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+}
+
+/* ── Chart containers ── */
+.chart-container {
+  position: relative;
+  width: 100%;
+  min-height: 300px;
+  max-height: 380px;
+}
+.chart-container canvas {
+  max-height: 340px;
+}
+
+/* ── Tables ── */
+.table {
+  font-size: 0.875rem;
+}
+.table th {
+  font-weight: 600;
+  font-size: 0.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+  white-space: nowrap;
+}
+.table-hover tbody tr:hover {
+  background-color: rgba(13, 110, 253, 0.04);
+}
+.table td {
+  vertical-align: middle;
+}
+
+/* ── Progress bars ── */
+.progress {
+  border-radius: 10px;
+  overflow: hidden;
+}
+
+/* ── Custom gender badge colours ── */
+.bg-pink {
+  background-color: #f8d7da;
+}
+
+/* ── Footer ── */
+.footer {
+  font-size: 0.825rem;
+}
+
+/* ── Alerts ── */
+.alert {
+  border-radius: var(--card-radius);
+  border-left: 4px solid transparent;
+}
+.alert-success { border-left-color: var(--outrix-success); }
+.alert-danger   { border-left-color: var(--outrix-danger);  }
+.alert-warning  { border-left-color: var(--outrix-warning); }
+.alert-info     { border-left-color: var(--outrix-info);    }
+
+/* ── Form controls ── */
+.form-control:focus,
+.form-select:focus {
+  border-color: var(--outrix-primary);
+  box-shadow: 0 0 0 0.2rem rgba(13, 110, 253, 0.15);
+}
+
+/* ── Card headers ── */
+.card-header {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+  border-radius: calc(var(--card-radius) - 1px) calc(var(--card-radius) - 1px) 0 0 !important;
+  font-size: 0.9rem;
+}
+
+/* ── Code blocks ── */
+pre {
+  font-size: 0.8rem;
+  line-height: 1.5;
+}
+
+/* ── Responsive adjustments ── */
+@media (max-width: 768px) {
+  .chart-container {
+    min-height: 250px;
+  }
+  .display-4 {
+    font-size: 2rem;
+  }
+  .fs-1 {
+    font-size: 1.5rem !important;
+  }
+}
+
+@media (max-width: 576px) {
+  .table-responsive {
+    font-size: 0.75rem;
+  }
+  .navbar-brand {
+    font-size: 1rem;
+  }
+}
+
+/* ── Utility: smooth transitions for interactive elements ── */
+a, .btn {
+  transition: all var(--transition-speed) ease;
+}
+.btn:hover {
+  transform: translateY(-1px);
+}
+.btn:active {
+  transform: translateY(0);
+}
